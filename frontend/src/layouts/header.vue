@@ -20,14 +20,16 @@
                 <div v-if="user_name">
                     <div class="position-relative account">
                         <a class="fw-medium cursor-pointer dropdown-toggle text-white">
-                            <img class="avatar"
-                                src="https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Anh-avatar-hoat-hinh-de-thuong-doi-lot-soi.jpg?1704788224743">
+                            <img v-if="avatar" class="avatar" :src="`${BACKEND_URL}/images/users/${avatar}`"
+                                alt="Hình ảnh">
+                            <i v-else class="ri-user-line"></i>
                             {{ user_name }}
                         </a>
                         <div class="subaccount position-absolute bg-white">
                             <div class="d-flex justify-content-center align-items-center flex-column">
-                                <img class="avatar mt-4"
-                                    src="https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Anh-avatar-hoat-hinh-de-thuong-doi-lot-soi.jpg?1704788224743">
+                                <img v-if="avatar" class="avatar" :src="`${BACKEND_URL}/images/users/${avatar}`"
+                                    alt="Hình ảnh">
+                                <i v-else class="ri-user-line"></i>
                                 <span class="fs-16 fw-medium mt-2">{{ user_name }}</span>
                             </div>
                             <div v-if="log && log.check_in_time" class="fs-12 text-dark fw-medium cursor-pointer ps-3">
@@ -39,8 +41,8 @@
                             </div>
                             <hr class="text-secondary">
                             <div class="d-flex flex-column gap-1">
-                                <router-link class="fs-16 text-dark fw-medium subaccount-item"
-                                    :to="{ name: 'admin-dashboard' }">
+                                <router-link v-if="role == 'super admin'"
+                                    class="fs-16 text-dark fw-medium subaccount-item" :to="{ name: 'admin-dashboard' }">
                                     <i class="ri-tools-line"></i>
                                     {{ $t('header.admin_dashboard') }}
                                 </router-link>
@@ -91,7 +93,7 @@
 import { useRouter } from 'vue-router'
 import api from '@/configs/api'
 import message from "@/utils/message_state"
-import { user_name_auth, clear_user } from '@/utils/auth_state'
+import { user_name_auth, clear_user, role, avatar } from '@/utils/auth_state'
 import { BACKEND_URL } from '@/configs/env'
 import LanguageSwitcher from '@/components/Language_switcher.vue'
 import { ref, onMounted } from 'vue'

@@ -7,14 +7,13 @@
                     <div class="sidebar fade-in">
                         <div class="user-info">
                             <div class="user-avatar">
-                                <i class="fas fa-user"></i>
+                                <img v-if="avatar.preview" :src="avatar.preview" alt="Hình ảnh preview" class="w-100">
+                                <img v-else-if="user.avatar" class="w-100"
+                                    :src="`${BACKEND_URL}/images/users/${user.avatar}`" alt="Hình ảnh">
+                                <i v-else class="ri-user-line"></i>
                             </div>
                             <div class="user-details">
-                                <h6>nhthin346</h6>
-                                <a href="#" class="edit-profile">
-                                    <i class="fas fa-pencil-alt"></i>
-                                    Sửa Hồ Sơ
-                                </a>
+                                <h6>{{ user_name_auth ?? '' }}</h6>
                             </div>
                         </div>
 
@@ -147,7 +146,7 @@ import api from '@/configs/api'
 import message from '@/utils/message_state'
 import { BACKEND_URL } from '@/configs/env'
 import loading__loader from '@/components/loading/loading__loader-circle.vue'
-import { check_login } from '@/utils/auth_state'
+import { check_login, user_name_auth, set_avatar, set_user } from '@/utils/auth_state'
 
 const router = useRouter()
 
@@ -229,7 +228,9 @@ const updateProfile = async () => {
     if (!validate()) return
     const formData = new FormData()
     formData.append('_method', 'PUT')
-    formData.append('avatar', avatar.value.object)
+    if (avatar.value.object) {
+        formData.append('avatar', avatar.value.object)
+    }
     for (let key in user.value) {
         if (key != 'avatar') {
             formData.append(key, user.value[key])
@@ -241,6 +242,8 @@ const updateProfile = async () => {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
         if (resUpdateProfile.status == 200) {
+            set_avatar(resUpdateProfile.data.avatar);
+            set_user(resUpdateProfile.data.name);
             message.emit("show-message", { title: "Thông báo", text: resUpdateProfile.data.message, type: "success" })
         }
     } catch (error) {

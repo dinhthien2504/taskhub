@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { clear_user } from '@/utils/auth_state'
 const url = import.meta.env.VITE_API_URL
-const api_url = url ?? 'http://localhost:8000/api'
+const api_url = url ? url + '/api' : 'http://localhost:8000/api'
 const api = axios.create({
     baseURL: api_url
 })

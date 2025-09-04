@@ -12,6 +12,7 @@ class ProfileResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'message' => 'Cập nhật tài khoản thành công.',
             'name' => $this->name,
             'avatar' => $this->avatar,
             'phone' => $this->phone,

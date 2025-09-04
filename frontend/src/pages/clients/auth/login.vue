@@ -160,8 +160,10 @@ const login = async () => {
             set_user(res.data.user_name)
             const user = {
                 user_name: res.data.user_name,
+                avatar: res.data.avatar,
                 token: res.data.token,
-                expires_at: res.data.expires_at
+                expires_at: res.data.expires_at,
+                role: res.data.role
             }
             localStorage.setItem('user', JSON.stringify(user))
             router.push('/')

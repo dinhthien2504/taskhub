@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ProfileRequest;
+use App\Http\Resources\Auth\LoginResource;
 use App\Http\Resources\Auth\ProfileResource;
 use App\Services\Auth\ProfileService;
 use Illuminate\Http\Request;
@@ -37,10 +38,8 @@ class ProfileController extends Controller
             $data = $request->only(['name', 'email', 'phone']);
             $avatar = $request->file('avatar');
 
-            $this->profileService->updateProfile($user->id, $data, $avatar);
-            return response()->json([
-                'message' => 'Cập nhật tài khoản thành công.'
-            ], 200);
+            $result = $this->profileService->updateProfile($user->id, $data, $avatar);
+            return (new ProfileResource($result));
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'Có lỗi xảy ra khi cập nhật tài khoản của bạn.'
