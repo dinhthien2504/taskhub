@@ -14,8 +14,10 @@ class LoginResource extends JsonResource
         return [
             'message' => 'Đăng nhập thành công',
             'user_name' => $this['user_name'],
-            'token' => $this['token'],                                                  
-            'expires_at' => $this['expires_at']->toDateString()
+            'avatar' => $this['avatar'],
+            'token' => $this['token'],
+            'expires_at' => $this['expires_at']->toDateString(),
+            'role' => $this['role']
         ];
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="admin__content">
+    <div class="admin__content p-0 m-0">
         <div
             class="p-3 bg-white border-bottom text-grey fs-14 fw-medium d-flex align-items-center justify-content-between">
             <p class="m-0">

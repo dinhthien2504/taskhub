@@ -18,11 +18,13 @@ class LoginService
         $user->tokens()->latest()->update([
             'expires_at' => $expires_at
         ]);
-
+        $user->load('roles');
         return [
             'user_name' => $user->name,
+            'avatar' => $user->avatar,
             'token' => $token,
-            'expires_at' => $expires_at
+            'expires_at' => $expires_at,
+            'role' => $user->roles?->pluck('name')->first()
         ];
     }
 
